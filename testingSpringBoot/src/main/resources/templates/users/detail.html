@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>User Detail</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<ul>
+    <li><a th:href="@{/}">Trang chủ</a></li>
+    <li><a th:href="@{/products}">Trang sản phẩm</a></li>
+    <li><a th:href="@{/users}">Trang người dùng</a></li>
+    <li><a th:href="@{/orders}">Trang đơn hàng</a></li>
+</ul>
+
+
+<h4>Thong tin san pham</h4>
+<h5>cac muc</h5>
+<!-- Nút gọi API -->
+<button onclick="getUserData()">Get Data</button>
+
+<!-- Nơi hiển thị dữ liệu -->
+<div id="user-info">
+    <!-- Nội dung sẽ được chèn bằng JavaScript -->
+</div>
+
+<script>
+    function getUserData() {
+        const urlParts = window.location.pathname.split('/');
+        const userId = urlParts[urlParts.length - 1]; // Lấy id cuối URL
+
+        fetch(`/api/users/${userId}`)
+            .then(response => response.json())
+            .then(res => {
+                console.log(res);
+                if (res.result && res.data) {
+                    const user = res.data;
+                    let html = `
+                    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                        <p><strong>ID:</strong> ${user.id}</p>
+                        <p><strong>Username:</strong> ${user.username}</p>
+                        <p><strong>Email:</strong> ${user.email || 'N/A'}</p>
+                    </div>
+                `;
+                    document.getElementById("user-info").innerHTML = html;
+                } else {
+                    alert("Không tìm thấy người dùng");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Lỗi gọi API");
+            });
+    }
+
+</script>
+
+</body>
+</html>

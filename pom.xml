@@ -1,31 +1,267 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <!-- =============================
+       1. Thông tin định danh chính
+       ============================= -->
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>com.example</groupId>
-  <artifactId>javaproject</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <name>JavaProject</name>
+  <artifactId>javaproject-multi-module</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging> <!-- Định dạng POM để quản lý các module con -->
 
+  <!-- ====================
+       2. Metadata mô tả
+       ==================== -->
+  <name>JavaProject</name>
+  <description>Full level testing </description>
+  <url>https://github.com/Mas_th</url>
+
+  <!-- =========================================
+       3. Danh sách các module con được quản lý
+       ========================================= -->
+  <modules>
+    <module>test-unit</module>
+    <module>test-integration</module>
+    <module>test-api</module>
+    <module>test-performance</module>
+    <module>spring-fw-A-testing</module>
+    <module>testingSpringBoot</module>
+  </modules>
+
+  <!-- ============================
+       4. Cấu hình và thông số chung
+       ============================ -->
   <properties>
-    <!-- Java 21 release level -->
-    <maven.compiler.release>21</maven.compiler.release>
+    <maven.compiler.release>17</maven.compiler.release> <!-- Java version -->
+    <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <!-- ===================================
+       5. Kế thừa từ Spring Boot Parent POM
+       =================================== -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.3</version>
+    <relativePath/> <!-- không cần tìm POM cha trong local -->
+  </parent>
+
+  <!-- ====================================
+       6. Quản lý Dependency dùng chung (nếu có)
+       ==================================== -->
+  <dependencyManagement>
+    <!-- Dùng để quản lý version dependency nếu muốn đồng bộ giữa các module -->
+  </dependencyManagement>
+
+  <!-- =====================================
+       7. Các dependency dùng cho toàn bộ dự án
+       ===================================== -->
+  <dependencies>
+    <!-- JUnit 5: Unit Test -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Mockito: Mock unit test -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.12.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>5.12.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- TestNG: Kiểu test cấu trúc suite -->
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>7.11.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- AssertJ: Fluent assertion syntax -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>4.0.0-M1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Testcontainers: hỗ trợ kiểm thử database thật -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
+      <version>1.26.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>1.21.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>1.21.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- PostgreSQL JDBC Driver -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.7.7</version>
+    </dependency>
+
+    <!-- Selenium (UI testing + container support) -->
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>selenium</artifactId>
+      <version>1.21.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>4.33.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- REST-assured (API test - đang bị comment) -->
+
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>5.5.5</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <!-- =============================
+       8. Cấu hình plugin Maven
+       ============================= -->
   <build>
     <plugins>
       <!-- Plugin biên dịch Java -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>${maven.compiler.plugin.version}</version>
         <configuration>
           <release>${maven.compiler.release}</release>
         </configuration>
       </plugin>
+
+      <!-- Plugin chạy JUnit Test (Surefire) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.3</version>
+        <configuration>
+          <useModulePath>false</useModulePath>
+        </configuration>
+      </plugin>
+
+      <!-- Plugin chạy Integration Test (Failsafe) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>3.5.3</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Plugin chạy JMeter để test hiệu năng -->
+      <plugin>
+        <groupId>com.lazerycode.jmeter</groupId>
+        <artifactId>jmeter-maven-plugin</artifactId>
+        <version>3.4.0</version>
+        <executions>
+          <execution>
+            <id>jmeter-tests</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jmeter</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <!-- =================================
+       9. Quản lý môi trường cấu hình riêng
+       ================================= -->
+  <profiles>
+    <!-- Có thể định nghĩa profile: dev, test, prod -->
+  </profiles>
+
+  <!-- ==============================
+       10. Repositories cấu hình
+       ============================== -->
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Maven Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <!-- Có thể định nghĩa plugin repo nếu cần -->
+  </pluginRepositories>
+
+  <!-- =========================
+       11. Thông tin con người
+       ========================= -->
+  <developers>
+    <!-- Tên tác giả, email, role -->
+  </developers>
+  <contributors>
+    <!-- Người đóng góp -->
+  </contributors>
+  <licenses>
+    <!-- Giấy phép sử dụng -->
+  </licenses>
+
+  <!-- =============================
+       12. Quản lý dự án mở rộng (SCM, CI/CD)
+       ============================= -->
+  <issueManagement>
+    <!-- Liên kết tracker (Jira, GitHub Issues...) -->
+  </issueManagement>
+
+  <scm>
+    <!-- Cấu hình Git/GitHub cho CI/CD -->
+  </scm>
+
+  <ciManagement>
+    <!-- Jenkins, GitHub Actions... -->
+  </ciManagement>
+
 </project>

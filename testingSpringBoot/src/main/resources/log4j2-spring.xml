@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+
+    <!-- ⚙️ Các biến dùng chung trong file -->
+    <Properties>
+        <!-- Thư mục chứa log file -->
+        <Property name="LOG_DIR">logs</Property>
+
+        <!-- Định dạng log chuẩn (thời gian - cấp độ - thread - class - message) -->
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss} %-5level [%t] %c{1.} - %msg%n</Property>
+    </Properties>
+
+    <!-- 📦 Khai báo nơi log được ghi -->
+    <Appenders>
+
+        <!-- ✅ Ghi log ra màn hình (Console) -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Console>
+
+        <!-- ✅ Ghi log ra file, có xoay vòng theo ngày + dung lượng -->
+        <RollingFile name="RollingFile"
+                     fileName="${LOG_DIR}/app.log"
+                     filePattern="${LOG_DIR}/app-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <!-- 🕓 Tạo file mới mỗi ngày -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <!-- 💾 Tạo file mới nếu lớn hơn 10MB -->
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <!-- 🔁 Chỉ giữ tối đa 10 file log cũ -->
+            <DefaultRolloverStrategy max="10" />
+        </RollingFile>
+
+        <!-- ✅ Ghi log ra file bất đồng bộ (nâng cao hiệu suất) -->
+        <Async name="Async">
+            <AppenderRef ref="RollingFile" />
+        </Async>
+
+    </Appenders>
+
+    <!-- 🔍 Cấu hình log cho từng phần hệ thống -->
+    <Loggers>
+
+        <!-- ✅ Log cho các class trong project (ví dụ com.web.*) -->
+        <Logger name="com.web" level="debug" additivity="false">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="Async" />
+        </Logger>
+
+        <!-- ✅ Log mặc định cho toàn hệ thống -->
+        <Root level="info">
+            <AppenderRef ref="Console" />
+        </Root>
+
+    </Loggers>
+
+</Configuration>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>Product Detail</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<ul>
+    <li><a th:href="@{/}">Trang chủ</a></li>
+    <li><a th:href="@{/products}">Trang sản phẩm</a></li>
+    <li><a th:href="@{/users}">Trang người dùng</a></li>
+    <li><a th:href="@{/orders}">Trang đơn hàng</a></li>
+</ul>
+
+
+<h4>Thong tin san pham</h4>
+<h5>cac muc</h5>
+<h6 th:text="${product}"></h6>
+<h6 th:text="${product.id()}"></h6>
+<h6 th:text="${product.name()}"></h6>
+<h6 th:text="${product.code()}"></h6>
+</body>
+</html>

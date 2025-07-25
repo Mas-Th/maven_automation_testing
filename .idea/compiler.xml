@@ -2,12 +2,38 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="test-unit-project" />
+        <module name="test-performance" />
         <module name="javaproject" />
+        <module name="web" />
+        <module name="test-integration-project" />
+        <module name="test-unit" />
+        <module name="test-integration" />
+        <module name="javaproject (2)" />
+        <module name="test-api" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="javaproject (1)" target="21" />
+      <module name="unit-test" target="21" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="javaproject" options="" />
+      <module name="javaproject-multi-module" options="-parameters" />
+      <module name="test-api" options="-parameters" />
+      <module name="test-integration" options="-parameters" />
+      <module name="test-integration-project" options="-parameters" />
+      <module name="test-performance" options="-parameters" />
+      <module name="test-unit" options="-parameters" />
+      <module name="test-unit-project" options="-parameters" />
+      <module name="web" options="-parameters" />
+    </option>
   </component>
 </project>

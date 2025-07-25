@@ -1,0 +1,15 @@
+#version: '3.8'
+#
+#services:
+#  app:
+#    build: .
+#    container_name: javaproject-app
+#    volumes:
+#      - .:/app
+#      - /app/node_modules
+#    ports:
+#      - "3000:3000"   # nếu dùng React + Vite → "5173:5173"
+#    environment:
+#      - NODE_ENV=development
+#    stdin_open: true
+#    tty: true

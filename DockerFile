@@ -1,0 +1,21 @@
+# # Dockerfile
+#
+# FROM node:22
+#
+# # Thư mục làm việc trong container
+# WORKDIR /app
+#
+# # Sao chép package.json để cài trước dependencies (tối ưu cache)
+# COPY package*.json ./
+#
+# # Cài đặt các gói
+# RUN npm install
+#
+# # Sao chép toàn bộ code vào container
+# COPY . .
+#
+# # Cổng mặc định (tuỳ framework)
+# EXPOSE 3000
+#
+# # Lệnh mặc định khi container khởi động
+# CMD ["npm", "run", "dev"]

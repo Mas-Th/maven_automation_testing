@@ -1,0 +1,14 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.mas_th.java</groupId>
+    <artifactId>test-performance</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>javaproject-multi-module</artifactId>
+        <version>1.0</version>
+    </parent>
+</project>
