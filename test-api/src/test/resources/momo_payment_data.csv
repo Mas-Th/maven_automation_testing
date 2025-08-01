@@ -1,0 +1,19 @@
+testCaseName,partnerCode,partnerName,storeId,orderInfo,redirectUrl,ipnUrl,lang,extraData,requestType,amount,expectedErrorCode,expectedMessage
+TC_SUCCESS_001_ValidPayment,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan don hang 1,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,10000,0,Success
+TC_SUCCESS_002_MinAmount,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan don hang toi thieu,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,1,0,Success
+TC_SUCCESS_003_MaxAmount,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan don hang toi da,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,999999999999,0,Success
+TC_SUCCESS_004_WithExtraData,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan co extra data,http://localhost:8080/callback,http://localhost:8080/ipn,vi,"{\"promotionCode\":\"PROMO123\"}",capture,50000,0,Success
+TC_SUCCESS_005_LongOrderInfo,PARTNER_CODE_TEST,TestPartner,store_test,"Day la mot thong tin don hang rat dai de kiem tra gioi han do dai cua truong orderInfo trong yeu cau thanh toan cua MoMo. Neu truong nay co gioi han, test case nay se giup phat hien ra.",http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,15000,0,Success
+TC_FAIL_101_InvalidAmount_Negative,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan so tien am,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,-100,10,Invalid amount
+TC_FAIL_102_InvalidAmount_Zero,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan so tien bang 0,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,0,10,Invalid amount
+TC_FAIL_103_MissingPartnerCode,,TestPartner,store_test,Thanh toan thieu PartnerCode,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,10000,20,Missing partnerCode
+TC_FAIL_104_MissingOrderId,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan thieu OrderId,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,10000,20,Missing orderId
+TC_FAIL_105_MissingOrderInfo,PARTNER_CODE_TEST,TestPartner,store_test,,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,20000,20,Missing orderInfo
+TC_FAIL_106_MissingRedirectUrl,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan thieu RedirectUrl,,http://localhost:8080/ipn,vi,,capture,10000,20,Missing redirectUrl
+TC_FAIL_107_MissingIpnUrl,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan thieu IpnUrl,http://localhost:8080/callback,,vi,,capture,10000,20,Missing ipnUrl
+TC_FAIL_108_InvalidRequestType,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan sai RequestType,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,invalid_type,10000,30,Invalid requestType
+TC_FAIL_109_InvalidLang,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan sai ngon ngu,http://localhost:8080/callback,http://localhost:8080/ipn,zz,,capture,10000,40,Invalid lang
+TC_FAIL_110_OrderIdTooLong,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan voi OrderId qua dai,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,10000,50,OrderId too long
+TC_FAIL_111_PartnerNameTooLong,PARTNER_CODE_TEST,"Day la mot ten doi tac rat rat dai de kiem tra gioi han do dai cua truong partnerName trong yeu cau thanh toan cua MoMo. Neu truong nay co gioi han, test case nay se giup phat hien ra.",store_test,Thanh toan voi PartnerName qua dai,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,10000,60,PartnerName too long
+TC_FAIL_112_DuplicateOrderId,PARTNER_CODE_TEST,TestPartner,store_test,Thanh toan voi OrderId da ton tai,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,10000,70,Duplicate orderId
+TC_FAIL_113_InvalidStoreId,PARTNER_CODE_TEST,TestPartner,invalid_store,Thanh toan voi StoreId khong hop le,http://localhost:8080/callback,http://localhost:8080/ipn,vi,,capture,10000,80,Invalid storeId

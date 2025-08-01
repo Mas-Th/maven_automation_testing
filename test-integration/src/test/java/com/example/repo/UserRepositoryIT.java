@@ -10,11 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class UserRepositoryIT {
-    static PostgreSQLContainer<?> postgre = new PostgreSQLContainer<>("postgres:16")
-    .withDatabaseName("testDb")
-    .withUsername("testuser")
-    .withPassword("testpassword");
+class UserRepositoryIT extends BaseRepositoty {
 
     static UserRepository userRepository;
 
@@ -25,11 +21,6 @@ class UserRepositoryIT {
         String jdbcUrl = postgre.getJdbcUrl();
         userRepository = new UserRepository(jdbcUrl, "testuser", "testpassword");
 
-        try (   Connection conn = DriverManager.getConnection(jdbcUrl, "testuser", "testpassword");
-                Statement stmt = conn.createStatement())
-        {
-                stmt.execute("CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR(50))");
-        };
     }
 
     @AfterAll

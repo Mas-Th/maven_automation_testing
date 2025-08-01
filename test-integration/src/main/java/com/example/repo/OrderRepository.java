@@ -14,16 +14,43 @@ public class OrderRepository {
         this.password = password;
     }
 
-    public void insertOrder(int userId, double amount) throws SQLException {
-        try (Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
-             PreparedStatement stmt = conn.prepareStatement(
-                     "INSERT INTO orders (user_id, amount) VALUES (?, ?)")) {
+
+    public void insertOrder(int userId, double amount, int productId) throws  SQLException {
+        String sql = "INSERT INTO orders (user_id, amount, product_id) VALUES (?, ?, ?)";
+
+        try(
+                Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+                PreparedStatement stmt = conn.prepareStatement(sql)){
 
             stmt.setInt(1, userId);
             stmt.setDouble(2, amount);
+            stmt.setInt(3, productId);
             stmt.executeUpdate();
         }
     }
+
+
+//    public void insertOrder(int userId, double amount) throws SQLException {
+//        try(
+//            Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+//            PreparedStatement stmt = conn.prepareStatement(
+//                    "INSERT INTO orders (user_id, amount) VALUES (?, ?)")){
+//                stmt.setInt(1, userId);
+//                stmt.setDouble(2, amount);
+//                stmt.executeUpdate();
+//        }
+//    }
+
+//    public void insertOrder(int userId, double amount) throws SQLException {
+//        try (Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+//             PreparedStatement stmt = conn.prepareStatement(
+//                     "INSERT INTO orders (user_id, amount) VALUES (?, ?)")) {
+//
+//            stmt.setInt(1, userId);
+//            stmt.setDouble(2, amount);
+//            stmt.executeUpdate();
+//        }
+//    }
 
     public List<Double> getOrderAmountsByUsername(String usernameQuery) throws SQLException {
         List<Double> result = new ArrayList<>();

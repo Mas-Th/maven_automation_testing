@@ -39,6 +39,19 @@ class CalculatorTest {
         System.out.println("Running testSubtract.");
     }
 
+    @Test
+    @DisplayName("sum double")
+    void testSum()   {
+        assertEquals(6, calculator.sum(1,2,3), "Should be 5");
+        System.out.println("Running testSum");
+    }
+    @Test
+    @DisplayName("fibonacy")
+    void testFibonacy(){
+        assertEquals(8, calculator.fibonacy(5));
+    }
+
+
     @AfterEach
     void teardown() {
         calculator = null;

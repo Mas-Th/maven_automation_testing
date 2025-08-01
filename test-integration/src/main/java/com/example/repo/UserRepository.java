@@ -13,14 +13,17 @@ public class UserRepository {
         this.username = username;
         this.password = password;
     }
+
     // Method
     public List<String> findAllUsernames() throws SQLException {
         List<String> result = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+        String sql = "SELECT username FROM users";
 
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT username FROM users")) {
-
+        try (
+            Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+        ){
             while (rs.next()) {
                 result.add(rs.getString("username"));
             }
@@ -29,8 +32,12 @@ public class UserRepository {
     }
 
     public void insertUser(String username) throws SQLException {
-        try (Connection conn = DriverManager.getConnection(jdbcUrl, this.username, this.password);
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (username) VALUES (?)")) {
+        String sqlInsertUsername="INSERT INTO users (username) VALUES (?)";
+
+        try (
+            Connection conn = DriverManager.getConnection(jdbcUrl, this.username, this.password);
+            PreparedStatement stmt = conn.prepareStatement(sqlInsertUsername)
+        ){
             stmt.setString(1, username);
             stmt.executeUpdate();
         }
