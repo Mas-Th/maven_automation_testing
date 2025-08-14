@@ -30,7 +30,7 @@ public class MoMoPaymentApiTest extends BaseTest {
 
         InputStream inputStream = MoMoPaymentApiTest.class.getResourceAsStream("/momo_payment_data.json"); // Tên file
 
-        // Đọc danh sách các đối tượng MomoTestCaseData từ JSON
+        // Read list Object MomoTestCaseData from JSON
         List<MomoCreatePaymentRequest> testCases = mapper.readValue(
                 inputStream,
                 mapper.getTypeFactory().constructCollectionType(List.class, MomoCreatePaymentRequest.class)
@@ -59,7 +59,7 @@ public class MoMoPaymentApiTest extends BaseTest {
 //
 //        InputStream inputStreamYAML = MoMoPaymentApiTest.class.getResourceAsStream("/momo_payment_data.yaml");
 //
-//        // Đọc danh sách các đối tượng MomoTestCaseData từ YAML
+//        // Read Object MomoTestCaseData from YAML
 //        List<MomoTestCaseData> testCasesYAML = mapperYAML.readValue(
 //                inputStreamYAML,
 //                mapperYAML.getTypeFactory().constructCollectionType(List.class, MomoTestCaseData.class)
@@ -84,7 +84,7 @@ public class MoMoPaymentApiTest extends BaseTest {
     // TESTCASE 1: THANH TOAN THANH CONG
     // TC_MOMO_CREATE_PAYMENT_001
 
-    @ParameterizedTest(name = "{0}: Thanh toán với dữ liệu từ CSV")
+    @ParameterizedTest(name = "{0}: Payment data from CSV")
     //@CsvFileSource(resources = "/momo_payment_data.csv", numLinesToSkip = 1)  // file CSV
     //MethodSource("getMomoPaymentDataYAML") // file YAML
 
@@ -109,11 +109,10 @@ public class MoMoPaymentApiTest extends BaseTest {
         String requestId = UUID.randomUUID().toString();
         String orderId = UUID.randomUUID().toString();
 
-
         //
         String rawHash = "accessKey=" + ACCESS_KEY +
                 "&amount=" + amount +
-                "&extraData=" + "JSON" + // extraData có thể rỗng hoặc chứa JSON
+                "&extraData=" + "JSON" + // extraData : "" or JSON
                 "&orderId=" + orderId +
                 "&orderInfo=" + orderInfo +
                 "&partnerCode=" + PARTNER_CODE +
@@ -125,7 +124,7 @@ public class MoMoPaymentApiTest extends BaseTest {
         String signature = generateSignature(rawHash); // Hàm tạo chữ ký THẬT SỰ của bạn
 
         // Request Body
-        // Tạo Request Body bằng POJO
+        // create Request Body by POJO
         MomoCreatePaymentRequest requestBody = new MomoCreatePaymentRequest();
         requestBody.testCaseName = testCaseName;
         requestBody.partnerCode = partnerCode;
@@ -152,7 +151,7 @@ public class MoMoPaymentApiTest extends BaseTest {
         SoftAssertions softly = new SoftAssertions();
 
         // Always assert status code first, this is typically a hard assertion if crucial.
-        // But for MoMo (often 200 even on logical errors), you can soft assert it too.
+        // But for MoMo (often 200 even on logical errors), you can softly assert it too.
         softly.assertThat(response.statusCode())
                 .as("check Status Code")
                 .isEqualTo(200);
@@ -170,7 +169,8 @@ public class MoMoPaymentApiTest extends BaseTest {
         if (expectedErrorCode == 0) {
             softly.assertThat(response.jsonPath().getString("payUrl"))
                     .as("check payUrl")
-                    .isNotNull(); // Hoặc isNotBlank() nếu bạn muốn đảm bảo nó không rỗng
+                    .isNotNull()
+                    .isNotBlank();
 
             softly.assertThat(response.jsonPath().getString("requestId"))
                     .as("check requestId")
@@ -180,7 +180,6 @@ public class MoMoPaymentApiTest extends BaseTest {
                     .as("check orderId")
                     .isEqualTo(orderId);
         }
-
         // end
         softly.assertAll();
     }
